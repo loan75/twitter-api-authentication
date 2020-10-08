@@ -1,5 +1,7 @@
 from datetime import datetime
 from sqlalchemy.schema import ForeignKey
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
 
 from app import db
 
@@ -19,7 +21,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80))
     email = db.Column(db.String(200))
-    api_key = db.Column(db.String(80))
+    api_key = db.Column(UUID(as_uuid=True), default=uuid.uuid4, unique=True, nullable=False)
     tweets = db.relationship('Tweet', back_populates="user")
 
     def __repr__(self):
